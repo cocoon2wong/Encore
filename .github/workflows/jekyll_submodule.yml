@@ -48,6 +48,7 @@ jobs:
 
       - name: Fetch the new readme
         run: |
+          cd docs
           pip install requests
           python ./fetch_readme.py
           
