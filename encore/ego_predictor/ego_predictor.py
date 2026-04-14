@@ -2,18 +2,19 @@
 @Author: Conghao Wong
 @Date: 2025-12-09 15:34:52
 @LastEditors: Conghao Wong
-@LastEditTime: 2026-03-23 17:25:09
+@LastEditTime: 2026-04-09 14:35:23
 @Github: https://cocoon2wong.github.io
 @Copyright 2025 Conghao Wong, All Rights Reserved.
 """
 
+import numpy as np
 import torch
 
+import qpid
 from qpid.model import layers, transformer
 from qpid.utils import get_mask
 
-from .linearDiffEncoding import LinearDiffEncoding
-from .reverberationTransform import KernelLayer, ReverberationTransform
+from ..layers import KernelLayer, LinearDiffEncoding, ReverberationTransform
 
 
 class EgoPredictor(torch.nn.Module):
@@ -35,6 +36,7 @@ class EgoPredictor(torch.nn.Module):
                  noise_depth: int,
                  transform: str,
                  compute_ego_bias: bool | int = True,
+                 fix_insight_kernels: bool | int = False,
                  *args, **kwargs):
 
         super().__init__()
@@ -49,7 +51,9 @@ class EgoPredictor(torch.nn.Module):
         self.insights = insights
         self.capacity = capacity
 
+        # Ablation Settings
         self.compute_ego_bias = compute_ego_bias
+        self.fix_insight_kernels = fix_insight_kernels
 
         # Layers
         # Transform layers
@@ -229,6 +233,36 @@ class EgoPredictor(torch.nn.Module):
             # Reverberation kernels and transform
             I = self.k1(f_ego)                  # Using the ego's feature
             R = self.k2(f_nei)                  # Using the neighbor's feature
+
+            # NOTE that this is only used to conduct ablation discussions
+            # after the model training.
+            # Consider using this in the playground mode with playground arg
+            # `--predict_all_neighbors`.
+            if not training and (s := self.fix_insight_kernels):
+                # Use the mean insight kernel
+                if s == 1:
+                    I = torch.mean(I, dim=0)[None]
+                    qpid.log("The batch-averaged insight kernel is used to "
+                             "replace all other agents' kernels.",
+                             level='warning')
+
+                # Use the most different insight kernel compared to the agent 0
+                elif s == 2:
+                    I_base = I[0:1]
+                    I_diff = torch.sum((I_base - I) ** 2, dim=(1, 2))
+                    I = I[I_diff.argmax()][None]
+
+                    agent_id = indices[0][I_diff.argmax()]
+                    qpid.log(f"Agent #{agent_id}'s insight kernel is used to "
+                             "replace all other agents' kernels.",
+                             level='warning')
+
+                else:
+                    qpid.log(f'Wrong `fix_insight_kernels` setting ({s})!',
+                             level='error', raiseError=ValueError)
+
+                I = torch.repeat_interleave(I, b, dim=0)
+
             y = self.rev(f_nei, R, I)           # (b, ins, T_f, d)
 
             # Decode predictions
@@ -260,6 +294,47 @@ class EgoPredictor(torch.nn.Module):
         y[indices] = y_nei
 
         return y
+
+    def compute_insight_kernels(self, x_ego: torch.Tensor) -> tuple[torch.Tensor, list[str]]:
+        """
+        This method is only used to compute the insight kernels according
+        to the provided trajectories. **DO NOT** use this method during the
+        model training phase.
+        """
+        # Resort trajectories according to the last point.
+        # Here `x_ego` is actually `x_nei` for the ego agent.
+        d = torch.norm(x_ego[..., -1, :], p=2, dim=-1)
+        batch_id = d.argsort()
+        batch_num = torch.arange(x_ego.shape[0])[:, None]
+        x_ego = x_ego[batch_num, batch_id]
+
+        # Assign labels for better visualization
+        M, N = x_ego.shape[:2]
+        IDs = np.array([[f'b{m}_n{n}' for n in range(N)] for m in range(M)])
+
+        # Remove invalid trajectories.
+        mask = get_mask(x_ego.abs().sum([-1, -2]))
+        idx = torch.where(mask.bool())
+
+        x_ego = x_ego[idx]
+        IDs = list(IDs[idx])
+
+        # Embedding
+        f_diff, x_diff = self.linear_diff(x_ego)
+
+        # Assign random ids and embeddings -> (b*2, T_h, d/2)
+        z = torch.zeros(list(f_diff.shape[:-1]) + [self.d_noise])
+        f_z = self.noise_embedding(z.to(f_diff.device))
+
+        # Transformer backbone -> (b*2, T_h, d)
+        # Difference features as keys and queries in the attention layers.
+        f, _ = self.T(inputs=torch.concat([f_diff, f_z], dim=-1),
+                      targets=self.tlayer(x_diff),
+                      training=None)
+
+        # Compute the insight kernel
+        I = self.k1(f)
+        return I, IDs
 
 
 class LinearEgoPredictor(torch.nn.Module):

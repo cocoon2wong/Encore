@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2025-12-02 11:10:53
 @LastEditors: Conghao Wong
-@LastEditTime: 2026-03-23 19:18:29
+@LastEditTime: 2026-04-07 11:23:17
 @Github: https://cocoon2wong.github.io
 @Copyright 2025 Conghao Wong, All Rights Reserved.
 """
@@ -16,11 +16,9 @@ from qpid.model import Model, layers
 from qpid.training import Structure
 from qpid.training.loss import l2
 
-from .__args import EncoreArgs
-from .egoLoss import EgoLoss
-from .egoPredictor import EgoPredictor, LinearEgoPredictor
-from .intentionPredictor import IntentionPredictor
-from .socialPredictor import SocialPredictor
+from .args import EncoreArgs
+from .ego_predictor import EgoLoss, EgoPredictor, LinearEgoPredictor
+from .final_predictor import IntentionPredictor, SocialPredictor
 from .utils import repeat
 
 
@@ -83,6 +81,7 @@ class EncoreModel(Model):
             noise_depth=self.args.noise_depth,
             transform=self.e.T,
             compute_ego_bias=self.e.compute_ego_bias,
+            fix_insight_kernels=self.e.fix_insight_kernels,
         )
 
         # -----------------------
@@ -157,6 +156,16 @@ class EncoreModel(Model):
                 training=training,
             )  # -> (batch, nei, insights, ego_t_f, dim)
 
+        # Visualize the learned ego biases
+        elif (self.e.vis_insight_kernels and
+              isinstance(self.ego_predictor, EgoPredictor)):
+            from .utils import visualize_insight_kernels
+
+            I, IDs = self.ego_predictor.compute_insight_kernels(
+                x_ego=x_nei[..., -_h:, :],
+            )
+            visualize_insight_kernels(I, IDs)
+
         # Normal use of the ego predictor.
         # Also predict the ego agent's trajectory.
         x_s = self.ego_predictor(
@@ -201,6 +210,13 @@ class EncoreModel(Model):
                 ego_types=ego_types,
                 training=training,
             )
+
+            if not training and (a := self.e.vis_self_activations):
+                self.intention_predictor.vis_activations(
+                    trajs=x_ego_extended,
+                    ego_types=ego_types,
+                    vis_mode=a,
+                )
         else:
             y_intention = 0
 
@@ -216,6 +232,14 @@ class EncoreModel(Model):
                 ego_types=ego_types,
                 training=training,
             )
+
+            if not training and (a := self.e.vis_social_activations) != '0':
+                self.social_predictor.vis_activations(
+                    nei_trajs=x_nei_extended,
+                    original_obs_len=self.args.obs_frames,
+                    ego_types=ego_types,
+                    vis_mode=a,
+                )
         else:
             y_social = 0
 
@@ -235,12 +259,31 @@ class EncoreModel(Model):
 
         # Visualize the ego predictor's outputs.
         # This only works in the playground mode.
-        elif v := self.e.vis_ego_predictor:
-            if v == 1:
-                e = x_s
-            elif v == 2:
+        elif (v := self.e.vis_ego_predictor) != '0':
+            if v in ['1', str(True)] or 'k' in v:
+
+                if 'k' in v:
+                    if (k := int(v[1:])) >= self.e.insights:
+                        self.log(f'Wrong visualization settings: `{v}`!',
+                                 level='error',
+                                 raiseError=ValueError)
+
+                    x_s = x_s[..., k: k+1, :, :]
+                    count = 1
+
+                else:
+                    count = self.e.insights
+
+                e = x_s[..., 1:, :, :, :]
+                o = repeat(x_nei[..., None, -1:, :], count, dim=-3)
+                e = torch.concat([o, e], dim=-2)
+
+            elif v == '2':
                 yy = torch.mean(x_s, dim=-3)
                 e = yy[..., 1:, :, :]
+                e = torch.concat([x_nei[..., -1:, :], e], dim=-2)
+                e = e[..., None, :, :]
+
             else:
                 self.log(f'Wrong `vis_ego_predictor` value received: {v}!',
                          level='error', raiseError=ValueError)

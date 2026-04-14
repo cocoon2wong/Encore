@@ -1,10 +1,10 @@
 """
 @Author: Conghao Wong
-@Date: 2025-12-31 11:26:02
+@Date: 2026-04-03 10:02:11
 @LastEditors: Conghao Wong
-@LastEditTime: 2026-01-05 19:18:26
+@LastEditTime: 2026-04-03 10:02:14
 @Github: https://cocoon2wong.github.io
-@Copyright 2025 Conghao Wong, All Rights Reserved.
+@Copyright 2026 Conghao Wong, All Rights Reserved.
 """
 
 import torch
@@ -45,3 +45,5 @@ def print_variable_summary(locals):
             f"SUMMARY: {n} tensors, total {total:.2f} MB, largest {max_item[1]} {tuple(max_item[2].shape)} {max_item[0]:.2f} MB")
     else:
         print("SUMMARY: 0 tensors")
+
+    

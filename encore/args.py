@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2025-12-02 11:09:18
 @LastEditors: Conghao Wong
-@LastEditTime: 2026-03-23 17:18:40
+@LastEditTime: 2026-04-08 09:29:45
 @Github: https://cocoon2wong.github.io
 @Copyright 2025 Conghao Wong, All Rights Reserved.
 """
@@ -180,25 +180,89 @@ class EncoreArgs(EmptyArgs):
             desc_in_model_summary=('Ablation Settings', 'Compute Ego Bias')
         )
 
+    @property
+    def fix_insight_kernels(self) -> int:
+        """
+        **Ablation Settings:**
+        (bool) Controls whether to use the average agents' (in a batch) insight
+        kernel to replace all other neighboring agents'. It should only be used
+        for conducting further model discussions and *SHOULD NOT* be used
+        during training.
+        A typical experimental scene to use this arg is the `playground`, along
+        side with the arg `predict_all_neighbors` and `pred_color_mode` 
+        (both set to `1`).
+        """
+        return self._arg('fix_insight_kernels', 0, TEMPORARY)
+
     # ----------------
     # MARK: - Vis Args
     # ----------------
 
     @property
-    def vis_ego_predictor(self) -> int:
+    def vis_ego_predictor(self) -> str:
         """
         Controls whether to visualize trajectories forecasted by the ego
-        predictor. It accepts three values:
+        predictor. It accepts four kinds of string values:
 
-        - `0`: Do nothing.
+        - `0`: Do nothing *(Default)*.
         - `1`: Visualize all predictions of the ego predictor.
         - `2`: Visualize the ego predictor's mean prediction for each
           neighbor.
+        - `kn`: Visualize the *n*th rehearsals (from all $K_I$ insights).
+          For example, `--vis_ego_predictor k1`. NOTE that the *n* should be
+          less than the number of insights (controlled by arg `insights`).
 
         NOTE that this arg only works in the *Playground* mode, or the
         program will be killed immediately.
         """
-        return self._arg('vis_ego_predictor', 0, argtype=TEMPORARY)
+        return self._arg('vis_ego_predictor', '0', argtype=TEMPORARY)
+
+    @property
+    def vis_insight_kernels(self) -> int:
+        """
+        (bool) Controls whether to visualize the insight kernels learned by the
+        ego predictor.
+        """
+        return self._arg('vis_insight_kernels', 0, argtype=TEMPORARY)
+
+    @property
+    def vis_self_activations(self) -> int:
+        """
+        Controls whether to visualize the feature selection results of
+        the feature-level conditioning for the self-bias term. This only works
+        when the intention predictor is enabled during training through the arg
+        `use_intention_predictor`.
+
+        It accepts three values:
+        - `0`: Do nothing *(Default)*.
+        - `1`: Regular visualization.
+        - `2`: Visualization while additionally displaying the activation of
+          the mean trajectory.
+        - `3`: Visualize absolute feature deviation instead of activations.
+        """
+        return self._arg('vis_self_activations', 0, argtype=TEMPORARY)
+
+    @property
+    def vis_social_activations(self) -> str:
+        """
+        Controls whether to visualize the feature selection results of
+        the feature-level conditioning for the social-bias term. This only works
+        when the intention predictor is enabled during training through the arg
+        `use_social_predictor`.
+
+        It accepts three values:
+        - `0`: Do nothing *(Default)*.
+        - `1`: Regular visualization.
+        - `2`: Visualization while additionally displaying the activation of
+          the mean trajectory.
+        - `3`: Visualize absolute feature deviation instead of activations.
+
+        Additionally, the default visualization neighbor is the zeroth neighbor
+        (the ego itself) sorted by Euclidean distance. Neighbor IDs can be input
+        as concatenated strings. For example, `1_3` refers to the third neighbor
+        in mode 1 (Regular visualization).
+        """
+        return self._arg('vis_social_activations', '0', argtype=TEMPORARY)
 
     def _init_all_args(self):
         super()._init_all_args()
@@ -232,7 +296,7 @@ class EncoreArgs(EmptyArgs):
                 level='error', raiseError=ValueError
             )
 
-        if ((self.vis_ego_predictor)
+        if ((self.vis_ego_predictor != '0')
                 and (self._terminal_args is not None)
                 and ('playground' not in ''.join(self._terminal_args))):
             self.log(

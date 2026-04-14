@@ -2,7 +2,7 @@
 @Author: Conghao Wong
 @Date: 2025-12-24 19:13:28
 @LastEditors: Conghao Wong
-@LastEditTime: 2026-03-23 17:34:15
+@LastEditTime: 2026-04-08 09:22:20
 @Github: https://cocoon2wong.github.io
 @Copyright 2025 Conghao Wong, All Rights Reserved.
 """
@@ -11,8 +11,7 @@ import torch
 
 from qpid.model import layers, transformer
 
-from .linearDiffEncoding import LinearDiffEncoding
-from .reverberationTransform import KernelLayer, ReverberationTransform
+from ..layers import KernelLayer, LinearDiffEncoding, ReverberationTransform
 
 
 class IntentionPredictor(torch.nn.Module):
@@ -154,3 +153,44 @@ class IntentionPredictor(torch.nn.Module):
 
         # Stack all outputs -> (batch, K, t_f, m)
         return torch.concat(all_predictions, dim=-3)
+
+    def vis_activations(self, trajs: torch.Tensor,
+                        ego_types: torch.Tensor | None = None,
+                        vis_mode: int = 1):
+        """
+        This method is only used for visualizing the feature selection after
+        the max-pooling, i.e., the feature-level bias conditioning.
+        Shape of the input `trajs` should be `(batch, insights, obs, dim)`.
+
+        `vis_mode` accepts three values:
+        - `1`: Regular visualization.
+        - `2`: Visualize activations of mean trajectories additionally.
+        - `3`: Visualize absolute deviation instead of activations.
+        """
+
+        from ..utils import vis_activations
+
+        last_row_name = None
+
+        if vis_mode == 2:
+            mean_traj = torch.mean(trajs, dim=-3, keepdim=True)
+            trajs = torch.concat([trajs, mean_traj], dim=-3)
+            last_row_name = 'Mean Rehearsal'
+
+        # Embed and encode
+        # -> (batch, insights, obs, dim)
+        f_ego, _ = self.linear_diff(
+            x_ego=trajs,
+            ego_types=ego_types,
+        )
+
+        # Average features across the batch
+        f_batch = torch.mean(f_ego, dim=0)
+
+        # Start visualizing
+        vis_activations(
+            f=f_batch,
+            title='Feature Activations (Self Bias)',
+            last_row_name=last_row_name,
+            deviation_mode=True if vis_mode == 3 else False,
+        )
