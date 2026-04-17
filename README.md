@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-01-29 19:26:52
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-04-17 11:20:13
+ * @LastEditTime: 2026-04-17 11:28:38
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -97,9 +97,9 @@ You can run the following commands to prepare dataset files that have been valid
 
 Click the following buttons to learn how we process these dataset files and the detailed dataset settings.
 
-<div style="text-align: center;">
-    <a class="btn btn-colorful btn-lg" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
-    <a class="btn btn-colorful btn-lg" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
+<div class="btn-normal-group" style="text-align: center;">
+    <a class="btn btn-lg btn-normal" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
+    <a class="btn btn-lg btn-normal" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
 </div>
 
 ### Training on Your New Datasets
@@ -170,6 +170,8 @@ You can open a `Tensorboard` to see how losses and metrics change during trainin
 tensorboard --logdir ./logs
 ```
 
+\\
+
 ## Visualization & Playground
 
 We have build a simple user interface to validate the qualitative trajectory prediction performance of our proposed `Encore` models.
@@ -183,8 +185,6 @@ You can use it to visualize model predictions and learn how the proposed `Encore
 > [!NOTE]
 > If you have these dataset videos, you can name them using the given filename and path specified in the `video_path` within videos' config files (`/dataset_configs/***/subsets/***.plist`, for example `/dataset_configs/ETH-UCY/subsets/zara1.plist`) to load and visualize them properly.
 
-### Visualization Requirements
-
 This playground interface is implemented with `PyQt6`.
 Install this package in your python environment to start:
 
@@ -192,15 +192,13 @@ Install this package in your python environment to start:
 pip install pyqt6
 ```
 
-### Open a Playground
-
 Run the following command to open a playground:
 
 ```bash
 python playground/main.py
 ```
 
-![Playground](./docs/subassets/img/playground.png)
+![Playground](/docs/subassets/img/playground.png)
 
 ### Load Models and Datasets
 
@@ -244,7 +242,7 @@ Also, args `--pred_color_mode 1` and `--draw_lines` are recommend for the better
 The `Encore` arg `--ego_capacity` also limits the number of neighbors to compute these non-linear rehearsals (like we elaborated in the implementation details section).
 You can set it to a larger value when visualization, for example `--ego_capacity 20`:
 
-![Playground: Rehearsals Visualization](./docs/subassets/img/playground_ego_predictor.png)
+![Playground: Rehearsals Visualization](/docs/subassets/img/playground_ego_predictor.png)
 
 Command used:
 
@@ -261,7 +259,7 @@ python playground/main.py \
 
 You can add the arg `--vis_insight_kernels` to visualize the distribution of time-averaged insight kernels learned by the ego predictor, learning how the distinct ego biases have been learned and distributed:
 
-![Playground: Insight Kernels](./docs/subassets/img/playground_insight_kernels.png)
+![Playground: Insight Kernels](/docs/subassets/img/playground_insight_kernels.png)
 
 Command used:
 
@@ -294,7 +292,7 @@ By default, the visualization targets the 0-th neighbor (the ego itself sorted b
 You can specify different neighbors by concatenating the mode and the neighbor ID with a `_`.
 For example, `--vis_social_activations 1_3` means using mode `1` (Regular visualization) and for the target the `3`rd neighbor (whose ID can be visualized by adding the arg `--draw_neighbor_IDs`).
 
-![Playground: Feature Activations](./docs/subassets/img/playground_feature_activations.png)
+![Playground: Feature Activations](/docs/subassets/img/playground_feature_activations.png)
 
 Command used:
 
