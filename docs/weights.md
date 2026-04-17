@@ -9,7 +9,7 @@ table-of-contents: true
  * @Author: Conghao Wong
  * @Date: 2026-02-04 10:41:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-02-06 15:06:50
+ * @LastEditTime: 2026-04-17 10:20:49
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -18,6 +18,7 @@ The weights branch (https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc) i
 You can download all these weights by clicking the green button `<> Code` above in the [repo page](https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc), and choose [`Download Zip`](https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip), or just clicking the following button:
 
 <div class="btn-normal-group" style="text-align: center;">
+    <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
     <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
 </div>
 
