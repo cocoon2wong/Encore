@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-01-29 19:26:52
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-04-17 11:28:38
+ * @LastEditTime: 2026-04-17 14:53:41
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -198,7 +198,7 @@ Run the following command to open a playground:
 python playground/main.py
 ```
 
-![Playground](/docs/subassets/img/playground.png)
+![Playground](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground.png)
 
 ### Load Models and Datasets
 
@@ -242,7 +242,7 @@ Also, args `--pred_color_mode 1` and `--draw_lines` are recommend for the better
 The `Encore` arg `--ego_capacity` also limits the number of neighbors to compute these non-linear rehearsals (like we elaborated in the implementation details section).
 You can set it to a larger value when visualization, for example `--ego_capacity 20`:
 
-![Playground: Rehearsals Visualization](/docs/subassets/img/playground_ego_predictor.png)
+![Playground: Rehearsals Visualization](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_ego_predictor.png)
 
 Command used:
 
@@ -259,7 +259,7 @@ python playground/main.py \
 
 You can add the arg `--vis_insight_kernels` to visualize the distribution of time-averaged insight kernels learned by the ego predictor, learning how the distinct ego biases have been learned and distributed:
 
-![Playground: Insight Kernels](/docs/subassets/img/playground_insight_kernels.png)
+![Playground: Insight Kernels](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_insight_kernels.png)
 
 Command used:
 
@@ -292,7 +292,7 @@ By default, the visualization targets the 0-th neighbor (the ego itself sorted b
 You can specify different neighbors by concatenating the mode and the neighbor ID with a `_`.
 For example, `--vis_social_activations 1_3` means using mode `1` (Regular visualization) and for the target the `3`rd neighbor (whose ID can be visualized by adding the arg `--draw_neighbor_IDs`).
 
-![Playground: Feature Activations](/docs/subassets/img/playground_feature_activations.png)
+![Playground: Feature Activations](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_feature_activations.png)
 
 Command used:
 
