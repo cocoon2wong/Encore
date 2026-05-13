@@ -108,10 +108,12 @@ copy_tree "./$REPO_DIR/assets"    "./assets"
 # Require destination dirs to exist after repo copy
 [ -d "_includes" ] || { err "_includes/ does not exist after repo copy"; exit 1; }
 [ -d "_layouts"  ] || { err "_layouts/ does not exist after repo copy"; exit 1; }
+[ -d "_data"  ] || { err "_data/ does not exist after repo copy"; exit 1; }
 
 info "Step 3/3: Apply local override folders (if present)"
 
 sync_dir_overwrite "__includes" "_includes"
 sync_dir_overwrite "__layouts"  "_layouts"
+sync_dir_overwrite "__data" "_data"
 
 info "All done."

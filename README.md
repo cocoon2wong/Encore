@@ -2,7 +2,7 @@
  * @Author: Conghao Wong
  * @Date: 2026-01-29 19:26:52
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-04-17 14:53:41
+ * @LastEditTime: 2026-05-13 10:59:06
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -10,7 +10,7 @@
 # Encore
 
 This is the official code repo of our paper "Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals".
-The full paper will be made available on arXiv soon.
+The paper is now available on [arXiv](https://arxiv.org/abs/2605.11463).
 Our model weights are available at [this page](https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc).
 
 ## Getting Started

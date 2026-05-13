@@ -9,7 +9,7 @@ mathjax: true
  * @Author: Conghao Wong
  * @Date: 2026-01-29 19:48:42
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-05-11 14:41:46
+ * @LastEditTime: 2026-05-13 10:58:50
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -17,12 +17,12 @@ mathjax: true
 ## Information
 
 This is the homepage of our paper "Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals".
-Full paper will be made on arXiv soon.
+The paper is now available on arXiv.
 Click the following buttons for more information:
 
 <div class="btn-normal-group" style="text-align: center;">
     <!-- {% if site.arxiv-id %} -->
-    <!-- <a class="btn btn-lg btn-normal" href="./paper">📖 Paper</a> -->
+    <a class="btn btn-lg btn-normal" href="./paper">📖 Paper</a>
     <!-- {% endif %} -->
     <a class="btn btn-lg btn-normal" href="{{ site.github.repository_url }}">🛠️ Code</a>
     <a class="btn btn-lg btn-normal" href="./weights">🛠️ Weights</a>
@@ -76,3 +76,20 @@ In this manuscript, we contribute
 - The ego predictor that learns and forecasts short-term rehearsal trajectories with specific ego-agents' biases for considering interactions and future plans, explicitly representing their structured and anisotropic subjectivities.
 - The *Encore* trajectory prediction model integrated with the ego predictor and the corresponding ego loss to forecast trajectories under specific ego biases, conditioned by the forecasted biased rehearsals from the immediate trajectory and further feature selection levels.
 - Experiments and discussions on multiple datasets that not only validate the consistent performance improvements, but also provide further interpretations of how agents' subjectivities are distributed and finally condition their future selections.
+
+## Citation
+
+If you find this work useful, we would be grateful if you could cite our paper!
+
+```bib
+@article{wong2026encore,
+  title={Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals},
+  author={Wong, Conghao and Zou, Ziqian and You, Xinge},
+  journal={arXiv preprint arXiv:{{ site.arxiv-id }}},
+  year={2026}
+}
+```
+
+<div style="text-align: center; padding-top: 40px">
+  <img src="subassets/img/encore_bottom.png" height="50px">
+</div>

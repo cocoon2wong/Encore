@@ -9,7 +9,7 @@ table-of-contents: true
  * @Author: Conghao Wong
  * @Date: 2026-02-04 10:41:35
  * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-05-11 14:48:29
+ * @LastEditTime: 2026-05-12 10:51:08
  * @Github: https://cocoon2wong.github.io
  * Copyright 2026 Conghao Wong, All Rights Reserved.
 -->
@@ -22,8 +22,8 @@ You can download all these weights by clicking the green button `<> Code` above 
     <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
 </div>
 
-<!-- > [!NOTE]
-> Due to file size limitations, weights of ablation variations are published in the [Rev_ablation](https://github.com/cocoon2wong/Project-Monandaeg/tree/Rev_ablation) branch. -->
+> [!NOTE]
+> Due to file size limitations, weights of ablation variations are published in the [Enc_ablation](https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc_ablation) branch.
 
 ## Usages
 
