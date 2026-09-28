@@ -97,9 +97,11 @@ You can run the following commands to prepare dataset files that have been valid
 
 Click the following buttons to learn how we process these dataset files and the detailed dataset settings.
 
-<div class="btn-normal-group" style="text-align: center;">
-    <a class="btn btn-lg btn-normal" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
-    <a class="btn btn-lg btn-normal" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
+<div style="text-align: center;">
+  <div class="pill pill-container pill-hoverable">
+    <a class="pill-item" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
+    <a class="pill-item" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
+  </div>
 </div>
 
 ### Training on Your New Datasets
@@ -114,9 +116,11 @@ We have provided our pre-trained model weights to help you quickly evaluate `Enc
 Click the following buttons to download our model weights.
 We recommend that you download the weights and place them in the `weights` folder.
 
-<div class="btn-normal-group" style="text-align: center;">
-    <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
-    <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
+<div style="text-align: center;">
+  <div class="pill pill-container pill-hoverable">
+    <a class="pill-item" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
+    <a class="pill-item" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
+  </div>
 </div>
 
 You can start evaluating these weights by
@@ -198,7 +202,7 @@ Run the following command to open a playground:
 python playground/main.py
 ```
 
-![Playground](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground.png)
+![Playground](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/__assets/img/playground.png)
 
 ### Load Models and Datasets
 
@@ -242,7 +246,7 @@ Also, args `--pred_color_mode 1` and `--draw_lines` are recommend for the better
 The `Encore` arg `--ego_capacity` also limits the number of neighbors to compute these non-linear rehearsals (like we elaborated in the implementation details section).
 You can set it to a larger value when visualization, for example `--ego_capacity 20`:
 
-![Playground: Rehearsals Visualization](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_ego_predictor.png)
+![Playground: Rehearsals Visualization](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/__assets/img/playground_ego_predictor.png)
 
 Command used:
 
@@ -259,7 +263,7 @@ python playground/main.py \
 
 You can add the arg `--vis_insight_kernels` to visualize the distribution of time-averaged insight kernels learned by the ego predictor, learning how the distinct ego biases have been learned and distributed:
 
-![Playground: Insight Kernels](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_insight_kernels.png)
+![Playground: Insight Kernels](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/__assets/img/playground_insight_kernels.png)
 
 Command used:
 
@@ -292,7 +296,7 @@ By default, the visualization targets the 0-th neighbor (the ego itself sorted b
 You can specify different neighbors by concatenating the mode and the neighbor ID with a `_`.
 For example, `--vis_social_activations 1_3` means using mode `1` (Regular visualization) and for the target the `3`rd neighbor (whose ID can be visualized by adding the arg `--draw_neighbor_IDs`).
 
-![Playground: Feature Activations](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/subassets/img/playground_feature_activations.png)
+![Playground: Feature Activations](https://raw.githubusercontent.com/cocoon2wong/Encore/main/docs/__assets/img/playground_feature_activations.png)
 
 Command used:
 

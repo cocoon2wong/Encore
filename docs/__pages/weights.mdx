@@ -1,26 +1,23 @@
 ---
-layout: page
-title: Encore Weights
+layout: "@/layouts/BaseLayout.astro"
+title: "Encore Weights"
 subtitle: "Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals"
-cover-img: /subassets/img/head.jpg
-table-of-contents: true
+showBreadcrumbs: true
+showTableOfContents: true
 ---
-<!--
- * @Author: Conghao Wong
- * @Date: 2026-02-04 10:41:35
- * @LastEditors: Conghao Wong
- * @LastEditTime: 2026-05-12 10:51:08
- * @Github: https://cocoon2wong.github.io
- * Copyright 2026 Conghao Wong, All Rights Reserved.
--->
+
+import Pill from "@/components/Pill.astro";
 
 The weights branch (https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc) includes our pre-trained `Encore` models' weights.
 You can download all these weights by clicking the green button `<> Code` above in the [repo page](https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc), and choose [`Download Zip`](https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip), or just clicking the following button:
 
-<div class="btn-normal-group" style="text-align: center;">
-    <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
-    <a class="btn btn-lg btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
-</div>
+<Pill
+  hoverable
+  items={[
+    {label: "📂 Weights Repo", href: "https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc"},
+    {label: "⬇️ Download Weights", href: "https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip"}
+  ]}
+/>
 
 > [!NOTE]
 > Due to file size limitations, weights of ablation variations are published in the [Enc_ablation](https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc_ablation) branch.
