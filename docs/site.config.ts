@@ -1,70 +1,138 @@
+/*
+ * @Author: Conghao Wong
+ * @Date: 2026-09-28 15:07:46
+ * @LastEditors: Conghao Wong
+ * @LastEditTime: 2026-09-28 20:43:35
+ * @Github: https://cocoon2wong.github.io
+ * Copyright 2026 Conghao Wong, All Rights Reserved.
+ */
+
+
+// =============================================================================
+// TypeScript Interfaces for Site Configuration
+// =============================================================================
+
+/**
+ * Navigation item link descriptor for the primary navigation menu.
+ */
 export interface NavLink {
+  /** Display title of the navigation link */
   title: string;
+  /** Destination URL or path */
   url: string;
+  /** Inline SVG icon markup */
   icon?: string;
+  /** Optional full name for footer display (replaces legacy full_names map) */
   footerTitle?: string;
 }
 
+/**
+ * Related link item descriptor for the footer directory.
+ */
 export interface FooterRelatedLink {
+  /** Display title of the link */
   title: string;
+  /** Destination URL or path */
   url: string;
 }
 
+/**
+ * Global website configuration schema.
+ */
 export interface SiteConfig {
+  // ---------------------------------------------------------------------------
+  // Section 1: Site Metadata & Identity
+  // ---------------------------------------------------------------------------
+  /** Site title shown in header and browser tab */
   title: string;
+  /** Secondary subtitle or tagline */
   subtitle?: string;
+  /** Meta description for SEO */
   description?: string;
+  /** Site author / creator name */
   author: string;
+  /** Document language code (e.g. 'en', 'zh') */
   language: string;
+  /** Canonical base URL of the website */
   url?: string;
+  /** GitHub repository path (e.g. 'username/repo') */
   repository?: string;
+  /** Git branch for GitHub source resolution and edit link */
   pageBranch?: string;
+  /** Whether to show 'Edit page' button in footer */
   editPageButton?: boolean;
+
+  // ---------------------------------------------------------------------------
+  // Section 2: Primary Navigation Menu
+  // ---------------------------------------------------------------------------
+  /** Top-level navigation items rendered in the main navbar */
   navLinks: NavLink[];
+
+  // ---------------------------------------------------------------------------
+  // Section 2.5: Custom Stylesheets
+  // ---------------------------------------------------------------------------
+  /** Optional custom CSS stylesheets (local paths or CDN URLs) to inject into <head> */
   customCss?: string[];
+
+  // ---------------------------------------------------------------------------
+  // Section 2.6: Footer Directory & Related Links
+  // ---------------------------------------------------------------------------
+  /** Whether to hide footnotes, breadcrumb, and directory (legacy: hide-detailed-footer) */
   hideDetailedFooter?: boolean;
+  /** Related links displayed in the second column of footer directory (legacy: footer_related_links) */
   footerRelatedLinks?: FooterRelatedLink[];
+  /** Optional dictionary mapping nav link titles to long names for footer display (legacy: full_names) */
   fullNames?: Record<string, string>;
+
+  // ---------------------------------------------------------------------------
+  // Section 3: Color Palette & Theming
+  // ---------------------------------------------------------------------------
   colors: {
-    pageBgColor: string;
-    pageBgColorGray: string;
-    pageBgColorDark: string;
-    pageBgColorDarkGray: string;
-    textColor: string;
-    textColorDark: string;
+    // 4.1 4-Level General Background System Tokens (Optional overrides, defaults in variables.css)
+    level1BgColor?: string;
+    level2BgColor?: string;
+    level3BgColor?: string;
+    level4BgColor?: string;
+    level1BgColorDark?: string;
+    level2BgColorDark?: string;
+    level3BgColorDark?: string;
+    level4BgColorDark?: string;
+
+    // 4.1.1 2-Level Liquid Glass Background Tokens (Optional overrides, defaults in variables.css)
+    level1GlassBgColor?: string;
+    level2GlassBgColor?: string;
+    level1GlassBgColorDark?: string;
+    level2GlassBgColorDark?: string;
+
+    // 4.2 4-Level Typography System Tokens (Optional overrides, defaults in variables.css)
+    level1TextColor?: string;
+    level2TextColor?: string;
+    level3TextColor?: string;
+    level4TextColor?: string;
+    level1TextColorDark?: string;
+    level2TextColorDark?: string;
+    level3TextColorDark?: string;
+    level4TextColorDark?: string;
+
+    // 4.3 Brand & Interactive Accents
     themeColor: string;
-    hoverColor: string;
-    linkColor: string;
-    headerBgColor: string;
-    headerBgColorDark: string;
+
+    // 4.5 Primary Floating Navbar
     navbarBgColor: string;
     navbarBgColorDark: string;
     navbarBorderColor: string;
     navbarTextColor: string;
-    navbarFloatActiveBgColor: string;
-    navbarIndicatorGrayLight: string;
-    navbarIndicatorGrayDark: string;
-    secondNavBgColor: string;
-    secondNavBgColorDark: string;
-    buttonNormalBg: string;
-    buttonNormalBgDark: string;
-    buttonNormalText: string;
-    buttonNormalTextDark: string;
-    buttonThemeBg: string;
-    buttonThemeText: string;
-    pillText: string;
-    pillTextDark: string;
-    pillActiveText: string;
-    footerBgColor: string;
-    footerBgColorDark: string;
-    footerTextColor: string;
-    footerLinkColor: string;
-    footerHoverColor: string;
-    pageShadowColor: string;
   };
 }
 
+// =============================================================================
+// Global Site Configuration Instance
+// =============================================================================
+
 export const siteConfig: SiteConfig = {
+  // ---------------------------------------------------------------------------
+  // Section 1: Site Metadata & Identity
+  // ---------------------------------------------------------------------------
   title: "Project Unpredictable: Encore",
   subtitle: "Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals",
   description: "Official website for Encore: Conditioning Trajectory Forecasting via Biased Ego Rehearsals",
@@ -74,6 +142,10 @@ export const siteConfig: SiteConfig = {
   repository: "cocoon2wong/Encore",
   pageBranch: "main",
   editPageButton: true,
+
+  // ---------------------------------------------------------------------------
+  // Section 2: Primary Navigation Menu
+  // ---------------------------------------------------------------------------
   navLinks: [
     {
       title: "Home",
@@ -101,7 +173,15 @@ export const siteConfig: SiteConfig = {
       icon: '<div style="font-size: 16px">Project</div>',
     },
   ],
+
+  // ---------------------------------------------------------------------------
+  // Section 2.5: Custom Stylesheets
+  // ---------------------------------------------------------------------------
   customCss: [],
+
+  // ---------------------------------------------------------------------------
+  // Section 2.6: Footer Directory & Related Links
+  // ---------------------------------------------------------------------------
   hideDetailedFooter: false,
   footerRelatedLinks: [
     {
@@ -123,41 +203,18 @@ export const siteConfig: SiteConfig = {
     Guide: "Codes Guidelines",
     Unpredictable: "Project Unpredictable",
   },
+
+  // ---------------------------------------------------------------------------
+  // Section 3: Color Palette & Theming
+  // ---------------------------------------------------------------------------
   colors: {
-    pageBgColor: "#FFFFFF",
-    pageBgColorGray: "#f5f5f7",
-    pageBgColorDark: "#1e1e1c",
-    pageBgColorDarkGray: "#1d1d1f",
-    textColor: "#404040",
-    textColorDark: "#FFFFFF",
+    // 4.3 Brand & Interactive Accents
     themeColor: "#8f9b6a",
-    hoverColor: "#8f9b6a",
-    linkColor: "#8f9b6a",
-    headerBgColor: "#f4f3ef",
-    headerBgColorDark: "#000000",
+
+    // 4.5 Primary Floating Navbar
     navbarBgColor: "#2b2a261c",
     navbarBgColorDark: "#14141460",
     navbarBorderColor: "#2b2a261c",
     navbarTextColor: "#3a3a3a",
-    navbarFloatActiveBgColor: "rgba(55, 54, 48, 0.65)",
-    navbarIndicatorGrayLight: "#00000015",
-    navbarIndicatorGrayDark: "#ffffff22",
-    secondNavBgColor: "#fafafc",
-    secondNavBgColorDark: "#3d3d3d",
-    buttonNormalBg: "#fcfcfe",
-    buttonNormalBgDark: "#3c3c3c",
-    buttonNormalText: "#3e3e3e",
-    buttonNormalTextDark: "#FFFFFF",
-    buttonThemeBg: "#6f7b52",
-    buttonThemeText: "#ffffff",
-    pillText: "#3e3e3e",
-    pillTextDark: "#FFFFFF",
-    pillActiveText: "#8f9b6a",
-    footerBgColor: "#f7f7f7",
-    footerBgColorDark: "#1c1c1e",
-    footerTextColor: "#7a7a7a",
-    footerLinkColor: "#4a4a4a",
-    footerHoverColor: "#8f9b6a",
-    pageShadowColor: "#00000060",
   },
 };

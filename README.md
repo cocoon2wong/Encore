@@ -97,11 +97,9 @@ You can run the following commands to prepare dataset files that have been valid
 
 Click the following buttons to learn how we process these dataset files and the detailed dataset settings.
 
-<div style="text-align: center;">
-  <div class="pill pill-container pill-hoverable">
-    <a class="pill-item" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
-    <a class="pill-item" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
-  </div>
+<div class="btn-group">
+    <a class="btn btn-normal" href="https://cocoon2wong.github.io/Project-Luna/howToUse/">💡 Dataset Guidelines</a>
+    <a class="btn btn-normal" href="https://cocoon2wong.github.io/Project-Luna/notes/">💡 Datasets and Splits Information</a>
 </div>
 
 ### Training on Your New Datasets
@@ -116,11 +114,9 @@ We have provided our pre-trained model weights to help you quickly evaluate `Enc
 Click the following buttons to download our model weights.
 We recommend that you download the weights and place them in the `weights` folder.
 
-<div style="text-align: center;">
-  <div class="pill pill-container pill-hoverable">
-    <a class="pill-item" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
-    <a class="pill-item" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
-  </div>
+<div class="btn-group">
+    <a class="btn btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/tree/Enc">📂 Weights Repo</a>
+    <a class="btn btn-normal" href="https://github.com/cocoon2wong/Project-Monandaeg/archive/refs/heads/Enc.zip">⬇️ Download Weights</a>
 </div>
 
 You can start evaluating these weights by
